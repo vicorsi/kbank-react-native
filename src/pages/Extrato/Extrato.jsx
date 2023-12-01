@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/Header/Header";
 import { Text, StyleSheet, View, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
+
 
 const data = [
 	{ id: 1, Data: "30/10", Histórico: "Tigrinho", Valor: 1200 },
@@ -11,6 +12,9 @@ const data = [
 ];
 
 function Extrato() {
+	const [dia, setDia] = useState([]);
+	const [historico, setHistorico] = useState([])
+
 	const navigation = useNavigation();
 	const renderItem = ({ item }) => (
 		<View style={styles.row}>

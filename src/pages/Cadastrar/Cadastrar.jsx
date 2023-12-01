@@ -11,7 +11,6 @@ import { useNavigation } from "@react-navigation/native";
 
 function Cadastrar() {
 	const navigation = useNavigation();
-	// diponeóibiobneokn ojiehb ui9oeh iopehpo ehheoje
 
 	return (
 		<View style={styles.container}>
@@ -80,14 +79,14 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		borderBottomWidth: 1,
-		height: 40,
+		height: 20,
 		marginBottom: 12,
 		fontSize: 16,
 	},
 	login: {
 		backgroundColor: "#E06066",
 		width: "100%",
-		borderRadius: 20,
+		borderRadius: 10,
 		paddingVertical: 8,
 		marginTop: 14,
 		justifyContent: "center",

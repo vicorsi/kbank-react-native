@@ -5,9 +5,10 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
+
 
 export default function Login() {
 	const navigation = useNavigation();
