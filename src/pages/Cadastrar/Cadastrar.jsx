@@ -11,8 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 function Cadastrar() {
 	const navigation = useNavigation();
-    // diponeóibiobneokn ojiehb ui9oeh iopehpo ehheoje
-    
+	// diponeóibiobneokn ojiehb ui9oeh iopehpo ehheoje
 
 	return (
 		<View style={styles.container}>
@@ -22,37 +21,25 @@ function Cadastrar() {
 				style={styles.containerHeader}
 			>
 				<Text style={styles.txtHeader}>
-					Quase lá, informe seus dados.
+					Quase lá, informe alguns dados.
 				</Text>
 			</Animatable.View>
 
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
 				<Text style={styles.label}>Nome</Text>
-				<TextInput
-					placeholder="Informe seu primeiro nome."
-					style={styles.input}
-				/>
+				<TextInput placeholder="Primeiro nome" style={styles.input} />
 				<Text style={styles.label}>Sobrenome</Text>
-				<TextInput
-					placeholder="Informe seu sobrenome."
-					style={styles.input}
-				/>
+				<TextInput placeholder="Sobrenome" style={styles.input} />
 				<Text style={styles.label}>CPF</Text>
-				<TextInput
-					placeholder="Informe seu CPF."
-					style={styles.input}
-				/>
+				<TextInput placeholder="CPF" style={styles.input} />
 				<Text style={styles.label}>Email</Text>
 				<TextInput
-					placeholder="Informe seu endereço de email."
+					placeholder="Endereço de email"
 					style={styles.input}
 				/>
 
 				<Text style={styles.label}>Senha</Text>
-				<TextInput
-					placeholder="Informe sua senha"
-					style={styles.input}
-				/>
+				<TextInput placeholder="Senha" style={styles.input} />
 
 				<TouchableOpacity
 					style={styles.login}
@@ -86,8 +73,6 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 25,
 		paddingStart: "5%",
 		paddingEnd: "5%",
-        
-
 	},
 	label: {
 		fontSize: 20,
