@@ -8,37 +8,64 @@ import {
 import React, { useState, useEffect } from "react";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
-
+import api from "../../api/Api";
 
 export default function Login() {
 	const navigation = useNavigation();
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
+	const signIn = ()=>{
+
+		try {
+			api.post("token/", {
+
+				email:email,
+				password:password
+
+			}).then(function(response){
+				console.log(response.data)
+				navigation.navigate("Menu")
+			})
+		} catch (error) {
+			console.error(error)
+		}
+	}
 	return (
 		<View style={styles.container}>
 			<Animatable.View
 				animation="fadeInLeft"
 				delay={500}
-				style={styles.containerHeader}
-			>
+				style={styles.containerHeader}>
 				<Text style={styles.txtHeader}>Seja Bem-vindo(a)!</Text>
 			</Animatable.View>
 
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
-				<Text style={styles.label}>Email</Text>
-				<TextInput
-					placeholder="Informe seu endereço de email."
+			<View style={styles.inputs}>
+			<TextInput
+					value={email}
+					onChangeText={text=>{
+						setEmail(text)
+					}}
+					placeholder="Digite seu email:"
 					style={styles.input}
 				/>
 
-				<Text style={styles.label}>Senha</Text>
+			
 				<TextInput
-					placeholder="Informe sua senha"
+					value={password}
+					onChangeText={text=>{
+						setPassword(text)
+					}}
+					placeholder="Digite sua senha: "
 					style={styles.input}
 				/>
+			</View>
+			
 
 				<TouchableOpacity
 					style={styles.login}
-					onPress={() => navigation.navigate("Menu")}
+					onPress={signIn}
 				>
 					<Text style={styles.loginTxt}>Entrar</Text>
 				</TouchableOpacity>
@@ -66,6 +93,13 @@ const styles = StyleSheet.create({
 		marginBottom: "8%",
 		paddingStart: "5%",
 	},
+	inputs:{
+		display:"flex",
+		width:"100%",
+		justifyContent:"center",
+		marginTop:30,
+		
+	},
 	txtHeader: {
 		fontSize: 20,
 		fontWeight: "bold",
@@ -88,6 +122,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		marginBottom: 12,
 		fontSize: 16,
+		outlineWidth:0
 	},
 	login: {
 		backgroundColor: "#E06066",
