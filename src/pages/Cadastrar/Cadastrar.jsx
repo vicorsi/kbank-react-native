@@ -5,41 +5,76 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../api/Api";
 
 function Cadastrar() {
+	//Create User
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [first_name, setFirst_name] = useState("");
+	const [last_name, setLast_name] = useState("");
+	const [cpf, setCpf] = useState("");
+	const [url_image, setUrl_image] = useState("");
 
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [first_name, setFirst_name] = useState('')
-	const [last_name, setLast_name] = useState('')
-	const [cpf, setCpf] = useState('')
-	const [url_image, setUrl_image] = useState('')
+	//Create Account
+
+	const [conta_agencia, setConta_agencia] = useState("");
+	const [conta_numero, setConta_numero] = useState("");
+	const [conta_saldo, setConta_saldo] = useState("");
+	const [conta_tipo, setConta_tipo] = useState("");
 
 	const navigation = useNavigation();
 
-	const signUp = ()=>{
-
+	const createAccount = async (token) => {
 		try {
-			api.post("v1/user/create", {
-				email:email,
-				password:password,
-				first_name:first_name,
-				last_name:last_name,
-				cpf:cpf,
-				url_image:url_image
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
 
-			}).then(function(response){
-				console.log(response.data)
-			})
+			const response = await api.post(
+				"v1/user/contas/",
+				{
+					conta_agencia: conta_agencia,
+					conta_numero: conta_numero,
+					conta_saldo: conta_saldo,
+					conta_tipo: conta_tipo,
+				},
+				config
+			);
+
+			console.log(response.data);
 		} catch (error) {
-			console.error(error)
+			console.error(error);
 		}
-	}
+	};
 
+	const signUp = async () => {
+		try {
+			const response = await api.post("v1/user/create", {
+				email: email,
+				password: password,
+				first_name: first_name,
+				last_name: last_name,
+				cpf: cpf,
+			});
+
+			console.log(response.data);
+
+			// Se a criação do usuário for bem-sucedida, chama a função createAccount
+			if (response.data && response.data.token) {
+				// Use o token obtido para autenticar a chamada à createAccount
+				const userToken = response.data.token;
+				await createAccount(userToken);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	return (
 		<View style={styles.container}>
 			<Animatable.View
@@ -47,41 +82,57 @@ function Cadastrar() {
 				delay={500}
 				style={styles.containerHeader}
 			>
-				<Text style={styles.txtHeader}>
-					Quase lá, informe alguns dados.
-				</Text>
+				<Text style={styles.txtHeader}>Quase lá, informe alguns dados.</Text>
 			</Animatable.View>
 
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
 				<View style={styles.inputs}>
-				<TextInput value={first_name} onChangeText={text=>{
-					setFirst_name(text)
-				}} placeholder="Digite seu nome" style={[styles.input]} />
-				
-				<TextInput value={last_name} onChangeText={text=>{
-					setLast_name(text)
-				}}  placeholder="Digite seu sobrenome: " style={styles.input} />
-				
-				<TextInput value={cpf} onChangeText={text=>{
-					setCpf(text)
-				}}  placeholder="Digite seu CPF:" style={styles.input} />
-				
-				<TextInput value={email} onChangeText={text=>{
-					setEmail(text)
-				}} 
-					placeholder="Digite seu e-mail:"
-					style={styles.input}
-				/>
-				<TextInput value={password} onChangeText={text=>{
-					setPassword(text)
-				}}  placeholder="Digite sua senha: " style={styles.input} />
-				</View>
-				
+					<TextInput
+						value={first_name}
+						onChangeText={(text) => {
+							setFirst_name(text);
+						}}
+						placeholder="Digite seu nome"
+						style={[styles.input]}
+					/>
 
-				<TouchableOpacity
-					style={styles.login}
-					onPress={signUp}
-				>
+					<TextInput
+						value={last_name}
+						onChangeText={(text) => {
+							setLast_name(text);
+						}}
+						placeholder="Digite seu sobrenome: "
+						style={styles.input}
+					/>
+
+					<TextInput
+						value={cpf}
+						onChangeText={(text) => {
+							setCpf(text);
+						}}
+						placeholder="Digite seu CPF:"
+						style={styles.input}
+					/>
+
+					<TextInput
+						value={email}
+						onChangeText={(text) => {
+							setEmail(text);
+						}}
+						placeholder="Digite seu e-mail:"
+						style={styles.input}
+					/>
+					<TextInput
+						value={password}
+						onChangeText={(text) => {
+							setPassword(text);
+						}}
+						placeholder="Digite sua senha: "
+						style={styles.input}
+					/>
+				</View>
+
+				<TouchableOpacity style={styles.login} onPress={signUp}>
 					<Text style={styles.loginTxt}>Cadastrar</Text>
 				</TouchableOpacity>
 			</Animatable.View>
@@ -109,16 +160,13 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 25,
 		paddingStart: "5%",
 		paddingEnd: "5%",
-		height:"90%",
-	
-		
+		height: "90%",
 	},
-	inputs:{
-		display:"flex",
-		width:"100%",
-		justifyContent:"center",
-		marginTop:10,
-		
+	inputs: {
+		display: "flex",
+		width: "100%",
+		justifyContent: "center",
+		marginTop: 10,
 	},
 
 	input: {
@@ -126,10 +174,8 @@ const styles = StyleSheet.create({
 		height: 20,
 		marginBottom: 12,
 		fontSize: 16,
-		marginTop:15,
-		outlineWidth:0
-	
-		
+		marginTop: 15,
+		outlineWidth: 0,
 	},
 	login: {
 		backgroundColor: "#E06066",
