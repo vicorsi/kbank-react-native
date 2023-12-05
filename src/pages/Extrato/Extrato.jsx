@@ -1,27 +1,44 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import {
+	Text,
+	StyleSheet,
+	View,
+	FlatList,
+	TouchableOpacity,
+} from "react-native";
 import Header from "../../components/Header/Header";
-import { Text, StyleSheet, View, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
-
-
-const data = [
-	{ id: 1, Data: "30/10", Histórico: "Tigrinho", Valor: 1200 },
-	{ id: 2, Data: "29/10", Histórico: "Aviãozinho", Valor: 500 },
-	{ id: 3, Data: "28/10", Histórico: "Roleta", Valor: -200 },
-];
+import api from "../../api/Api";
 
 function Extrato() {
-	const [dia, setDia] = useState([]);
-	const [historico, setHistorico] = useState([])
-
+	const [data, setData] = useState([]);
 	const navigation = useNavigation();
+
+	useEffect(() => {
+		getExtrato();
+	}, []);
+
+	const getExtrato = async () => {
+		try {
+			const response = await api.get("v1/user/extrato/");
+			setData(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	const renderItem = ({ item }) => (
-		<View style={styles.row}>
-			<Text style={styles.cell}>{item.Data}</Text>
-			<Text style={styles.cell}>{item.Histórico}</Text>
-			<Text style={styles.cell}>{item.Valor}</Text>
-		</View>
+		<TouchableOpacity
+			style={styles.row}
+			onPress={() => {
+				// Handle press
+			}}
+		>
+			<Text style={styles.cell}>{item.data}</Text>
+			<Text style={styles.cell}>{item.tipo_transacao}</Text>
+			<Text style={styles.cell}>{item.valor}</Text>
+		</TouchableOpacity>
 	);
 
 	return (
@@ -45,6 +62,7 @@ function Extrato() {
 		</>
 	);
 }
+
 export default Extrato;
 
 const styles = StyleSheet.create({

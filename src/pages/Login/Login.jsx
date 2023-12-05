@@ -24,6 +24,7 @@ export default function Login() {
 				})
 				.then(function (response) {
 					console.log(response.data);
+					api.defaults.headers.Authorization = `Token ${response.data.auth_token}`
 					navigation.navigate("Menu");
 				});
 		} catch (error) {
