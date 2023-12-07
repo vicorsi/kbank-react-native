@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import { Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -6,11 +6,28 @@ import * as Animatable from "react-native-animatable";
 
 function Cartoes() {
 	const navigation = useNavigation();
+
+	const [id, setId] = useState([]);
+	const [cartao_numero, setCartao_numero] = useState([]);
+	const [cartao_cvv, setCartao_cvv] = useState([]);
+	const [cartao_validade, setCartao_validade] = useState([]);
+	const [cartao_bandeira, setCartao_bandeira] = useState([]);
+	const [cartao_saldo, setCartao_saldo] = useState([]);
+	const [conta_id, setConta_id] = useState([]);
+
+/* 	const getCartao = async () => {
+		try{
+			const response = await api.get("");
+			setId(response.data.)
+		}
+	} */
+
 	return (
 		<>
 			<Header name=", veja seus cartões" />
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
 				<Text style={styles.label}>Meus Cartões</Text>
+				<Text style={styles.label}></Text>
 			</Animatable.View>
 		</>
 	);
