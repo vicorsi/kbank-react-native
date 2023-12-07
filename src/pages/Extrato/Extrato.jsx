@@ -22,7 +22,8 @@ function Extrato() {
 	const getExtrato = async () => {
 		try {
 			const response = await api.get("v1/user/extrato/");
-			setData(response.data);
+			console.log(response)
+			setData(response.data.extrato);
 		} catch (error) {
 			console.error(error);
 		}
@@ -32,10 +33,9 @@ function Extrato() {
 		<TouchableOpacity
 			style={styles.row}
 			onPress={() => {
-				// Handle press
 			}}
 		>
-			<Text style={styles.cell}>{item.data}</Text>
+			<Text style={styles.cell}>{item.created_at}</Text>
 			<Text style={styles.cell}>{item.tipo_transacao}</Text>
 			<Text style={styles.cell}>{item.valor}</Text>
 		</TouchableOpacity>
@@ -55,7 +55,7 @@ function Extrato() {
 				</View>
 				<FlatList
 					data={data}
-					keyExtractor={(item) => item.id.toString()}
+			
 					renderItem={renderItem}
 				/>
 			</View>

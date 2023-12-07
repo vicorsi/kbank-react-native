@@ -24,7 +24,7 @@ export default function Login() {
 				})
 				.then(function (response) {
 					console.log(response.data);
-					api.defaults.headers.Authorization = `Token ${response.data.auth_token}`
+					api.defaults.headers.Authorization = `Bearer ${response.data.access}`
 					navigation.navigate("Menu");
 				});
 		} catch (error) {
