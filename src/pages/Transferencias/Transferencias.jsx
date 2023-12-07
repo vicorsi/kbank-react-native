@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import { Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 
+import api from "../../api/Api";
+
 function Transferencias() {
 	const navigation = useNavigation();
+
+	const [conta_id_origem, setConta_id_origem] = useState([]);
+	const [conta_id_destino, setConta_id_destino] = useState([]);
+	const [valor, setValor] = useState([]);
+
+	const transferir = () => {
+		try {
+			api.post("v1/user/contas/1/transferir/", {
+				conta_id_origem: conta_id_origem,
+				conta_id_destino: conta_id_destino,
+				valor: valor,
+			}).then(function (response) {
+				console.log(response.data);
+				api.defaults.headers.Authorization = `Token ${response.data.auth_token}`;
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<Header name=", informe quem irá receber" />
@@ -16,28 +38,41 @@ function Transferencias() {
 				<Text style={styles.buttonTxt}>Transferir</Text>
 			</TouchableOpacity>
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
-				<Text style={styles.label}>Número da conta</Text>
+				<Text style={styles.label}>ID da conta de origem</Text>
 				<TextInput
+					value={conta_id_origem}
+					onChangeText={(id) => {
+						setConta_id_origem(id);
+					}}
 					keyboardType="numeric"
-					placeholder="Informe o número da conta"
+					placeholder="Conta de origem"
 					style={styles.input}
 				/>
 
-				<Text style={styles.label}>Agência</Text>
+				<Text style={styles.label}>ID da conta de destino</Text>
 				<TextInput
+					value={conta_id_destino}
+					onChangeText={(id) => {
+						setConta_id_destino(id);
+					}}
 					keyboardType="numeric"
-					placeholder="Informe a agência"
+					placeholder="Conta de destino"
 					style={styles.input}
 				/>
-				<Text style={styles.label}>Valor</Text>
+				<Text style={styles.label}>Valor da transferência</Text>
 				<TextInput
+					value={valor}
+					onChangeText={(text) => {
+						setValor(text);
+					}}
 					keyboardType="numeric"
-					placeholder="R$ 0,00"
+					placeholder="R$ 10.0"
 					style={styles.input}
 				/>
 
 				<TouchableOpacity
 					style={styles.confirmarBtn}
+					onPress={transferir}
 				>
 					<Text style={styles.confirmarTxt}>Confirmar</Text>
 				</TouchableOpacity>

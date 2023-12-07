@@ -5,7 +5,7 @@ const headers = {
 };
 
 const api = axios.create({
-	baseURL: "http://127.0.0.1:8000/api/", //"http://10.234.93.180:8000/api/",
+	baseURL: "http://10.109.71.5:8000/api/", //"http://10.234.93.180:8000/api/",
 	headers: headers,
 });
 
