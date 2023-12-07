@@ -7,27 +7,40 @@ import Barra from "../../components/Servicos/Servicos";
 import api from "../../api/Api";
 
 function Menu() {
+	const [saldo, setSaldo] = useState([]);
+	const [first_name, setFirst_name] = useState([]);
 
-	const [saldo, setSaldo] = useState([])
-
-	useEffect(()=>{
+	useEffect(() => {
 		getSaldo();
 	}, []);
 
-	const getSaldo = async ()=>{
+	useEffect(() => {
+		getName();
+	}, []);
+
+	const getSaldo = async () => {
 		try {
-			const response = await api.get('v1/user/contas/');
-			setSaldo(response.data[4])
-		}catch (errror){
-			console.error(error)
+			const response = await api.get("v1/user/contas/");
+			setSaldo(response.data[4]);
+		} catch (error) {
+			console.error(error);
 		}
-	}
+	};
+
+	const getName = async () => {
+		try {
+			const response = await api.get("v1/user/me/");
+			setFirst_name(response.data(1));
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<View>
-			<Header name="Victor"/>
-			<Saldo saldo={saldo}/>
-			<Barra/>
+			<Header name={first_name} />
+			<Saldo saldo={saldo} />
+			<Barra />
 		</View>
 	);
 }
