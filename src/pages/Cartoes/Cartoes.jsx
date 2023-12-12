@@ -4,30 +4,57 @@ import { Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 
+import api from "../../api/Api";
+
 function Cartoes() {
 	const navigation = useNavigation();
 
-	const [id, setId] = useState([]);
 	const [cartao_numero, setCartao_numero] = useState([]);
 	const [cartao_cvv, setCartao_cvv] = useState([]);
-	const [cartao_validade, setCartao_validade] = useState([]);
-	const [cartao_bandeira, setCartao_bandeira] = useState([]);
-	const [cartao_saldo, setCartao_saldo] = useState([]);
 	const [conta_id, setConta_id] = useState([]);
 
-/* 	const getCartao = async () => {
+	useEffect(()=>{
+		getCartao();
+	}, [])
+
+	const getCartao = async () => {
 		try{
-			const response = await api.get("");
-			setId(response.data.)
+			const response = await api.get("v1/user/contas/3/get/cartao/");
+			console.log(response)
+			setCartao_numero(response.data.cartao_numero)
+		}catch(error){
+			console.log(error)
 		}
-	} */
+	}
+
+	const createCartao = () => {
+		try {
+			api
+				.post("v1/user/contas/3/cartao/", {
+					cartao_numero: cartao_numero,
+					cartao_cvv: cartao_cvv,
+					conta_id: conta_id,
+				})
+				.then(function(response) {
+					console.log(response.data);
+					api.defaults.headers.Authorization = `Bearer ${response.data.access}`;
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	
 
 	return (
 		<>
 			<Header name=", veja seus cartões" />
 			<Animatable.View animation="fadeInUp" style={styles.containerForm}>
 				<Text style={styles.label}>Meus Cartões</Text>
-				<Text style={styles.label}></Text>
+				<Text style={styles.label}>{cartao_numero}</Text>
+				<TouchableOpacity style={styles.confirmarBtn}
+				onPress={createCartao}>
+					<Text> Pedir cartão </Text>
+				</TouchableOpacity>
 			</Animatable.View>
 		</>
 	);

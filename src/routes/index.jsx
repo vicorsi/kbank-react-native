@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Routes() {
 	return (
-		<Stack.Navigator screenOptions={{ headerShown: true }}>
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="Dashboard" component={Dashboard} />
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Cadastrar" component={Cadastrar} />

@@ -7,8 +7,8 @@ import Barra from "../../components/Servicos/Servicos";
 import api from "../../api/Api";
 
 function Menu() {
-	const [saldo, setSaldo] = useState([]);
-	const [first_name, setFirst_name] = useState([]);
+	const [saldo, setSaldo] = useState('');
+	const [first_name, setFirst_name] = useState('');
 
 	useEffect(() => {
 		getSaldo();
@@ -21,7 +21,8 @@ function Menu() {
 	const getSaldo = async () => {
 		try {
 			const response = await api.get("v1/user/contas/");
-			setSaldo(response.data[4]);
+			console.log(response.data)
+			setSaldo(response.data[0].conta_saldo);
 		} catch (error) {
 			console.error(error);
 		}
@@ -30,7 +31,7 @@ function Menu() {
 	const getName = async () => {
 		try {
 			const response = await api.get("v1/user/me/");
-			setFirst_name(response.data(1));
+			setFirst_name(response.data.first_name);
 		} catch (error) {
 			console.error(error);
 		}

@@ -21,7 +21,7 @@ function Transferencias() {
 				valor: valor,
 			}).then(function (response) {
 				console.log(response.data);
-				api.defaults.headers.Authorization = `Token ${response.data.auth_token}`;
+				api.defaults.headers.Authorization = `Bearer ${response.data.auth_token}`;
 			});
 		} catch (error) {
 			console.error(error);

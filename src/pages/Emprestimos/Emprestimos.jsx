@@ -4,6 +4,8 @@ import { Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 
+import api from "../../api/Api";
+
 function Emprestimos() {
 	const navigation = useNavigation();
 
@@ -15,14 +17,14 @@ function Emprestimos() {
 
 	const emprestar = () => {
 		try {
-			api.post("v1/user/contas/1/emprestar/", {
+			api.post("v1/user/contas/3/emprestar/", {
 				emprestimo_valor: emprestimo_valor,
 				emprestimo_quantidade_parcelas: emprestimo_quantidade_parcelas,
 				emprestimo_observacao: emprestimo_observacao,
 				conta_id: conta_id,
 			}).then(function (response) {
 				console.log(response.data);
-				api.defaults.headers.Authorization = `Token ${response.data.auth_token}`;
+				api.defaults.headers.Authorization = `Bearer ${response.data.auth_token}`;
 			});
 		} catch (error) {
 			console.error(error);
@@ -61,7 +63,7 @@ function Emprestimos() {
 					style={styles.input}
 					value={emprestimo_observacao}
 					onChangeText={(text) => {
-						setEmprestimo_observacao;
+						setEmprestimo_observacao(text);
 					}}
 				/>
 
@@ -128,10 +130,10 @@ const styles = StyleSheet.create({
 		width: "100%",
 		borderRadius: 20,
 		paddingVertical: 8,
-		marginTop: 300,
+		marginTop: 50,
 		justifyContent: "center",
 		alignItems: "center",
-		color: "#fff",
+		// color: "#fff",
 	},
 	confirmarTxt: {
 		color: "#FFF",
@@ -139,3 +141,4 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 });
+ 
