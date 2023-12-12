@@ -65,9 +65,7 @@ function Cadastrar() {
 
 			console.log(response.data);
 
-			// Se a criação do usuário for bem-sucedida, chama a função createAccount
 			if (response.data && response.data.token) {
-				// Use o token obtido para autenticar a chamada à createAccount
 				const userToken = response.data.token;
 				await createAccount(userToken);
 			}
